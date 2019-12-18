@@ -31,7 +31,7 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     # urlpatterns += [url(r'^silk/', include('silk.urls', namespace='silk'))]
 
-urlpatterns = [
+urlpatterns += [
     path('admin/', admin.site.urls),
     re_path(r'^cms/', include(wagtailadmin_urls)),
     re_path(r'^documents/', include(wagtaildocs_urls)),
