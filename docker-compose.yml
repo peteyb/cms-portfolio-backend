@@ -1,0 +1,35 @@
+version: "3"
+services:
+  db:
+    image: postgres:11
+    container_name: portfolio-db
+    volumes:
+      - ./config/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:9200 --settings=portfolio.settings.local
+    container_name: portfolio
+    depends_on:
+      - db
+    environment:
+      DEBUG: "True"
+    extra_hosts:
+      - "portfolio.dev.local:127.0.0.1"
+    image: registry.hub.docker.com/peteyb/cms-portfolio-backend:latest
+    ports:
+      - "9200:9200"
+      - "8200:8200"
+    volumes:
+      - .:/code
+      - media:/media
+
+volumes:
+  pgdata:
+  media:
+
+networks:
+  default:
+    external:
+      name: portfolio_network
