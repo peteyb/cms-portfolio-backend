@@ -57,6 +57,9 @@ INSTALLED_APPS = [
     "grapple",
     "graphene_django",
     "channels",
+    
+    # third party
+    'whitenoise.runserver_nostatic',
 
     # apps
     'home',
@@ -75,6 +78,9 @@ MIDDLEWARE = [
     # wagtail
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+
+    # third party
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'portfolio.urls'
@@ -153,6 +159,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
 MEDIA_URL = '/media/'
 WAGTAIL_SITE_NAME = 'Portfolio Site'
+
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Grapple Config:
 GRAPHENE = {"SCHEMA": "grapple.schema.schema"}

@@ -12,6 +12,7 @@ dj-database-url==0.5.0
 
 # server
 gunicorn==20.0.4
+whitenoise==5.0.1
 
 # monitoring
 raven>=3
