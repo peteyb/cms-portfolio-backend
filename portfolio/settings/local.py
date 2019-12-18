@@ -15,7 +15,6 @@ LOCAL_ENV = environ.Env(
     DATABASE_URL=str,
     REDIS_URL=str,
 )
-print(os.path.join(BASE_DIR, '.env'))
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = LOCAL_ENV('SECRET_KEY')
 DEBUG = LOCAL_ENV('DEBUG')
