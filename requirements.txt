@@ -4,6 +4,7 @@ django-environ==0.4.5
 
 # wagtail
 wagtail>=2.7,<2.8
+wagtail-grapple>=0.4,<0.5
 
 # database
 psycopg2>=2.7,<3.0

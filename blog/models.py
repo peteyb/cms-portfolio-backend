@@ -6,6 +6,8 @@ from wagtail.core.models import Orderable, Page
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
+from grapple.models import GraphQLStreamfield, GraphQLString
+
 
 class BlogIndexPage(Page):
     intro = RichTextField(blank=True)
@@ -27,6 +29,11 @@ class BlogPage(Page):
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
 
+    graphql_fields = [
+        GraphQLString("date"),
+        GraphQLString("body"),
+    ]
+
     search_fields = Page.search_fields + [
         index.SearchField('intro'),
         index.SearchField('body'),
@@ -38,6 +45,13 @@ class BlogPage(Page):
         FieldPanel('body', classname="full"),
         InlinePanel('gallery_images', label="Gallery images"),
     ]
+
+    def main_image(self):
+        gallery_item = self.gallery_images.first()
+        if gallery_item:
+            return gallery_item.image
+        else:
+            return None
 
 
 class BlogPageGalleryImage(Orderable):

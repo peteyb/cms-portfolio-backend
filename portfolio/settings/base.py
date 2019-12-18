@@ -53,6 +53,11 @@ INSTALLED_APPS = [
     'modelcluster',
     'taggit',
 
+    # wagtail graphql
+    "grapple",
+    "graphene_django",
+    "channels",
+
     # apps
     'home',
     'blog',
@@ -148,3 +153,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
 MEDIA_URL = '/media/'
 WAGTAIL_SITE_NAME = 'Portfolio Site'
+
+# Grapple Config:
+GRAPHENE = {"SCHEMA": "grapple.schema.schema"}
+GRAPPLE_APPS = {
+    "home": "",
+    "blog": "",
+}

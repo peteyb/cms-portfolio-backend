@@ -21,6 +21,8 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.core import urls as wagtail_urls
 from wagtail.documents import urls as wagtaildocs_urls
 
+from grapple import urls as grapple_urls
+
 urlpatterns = []
 
 if settings.DEBUG:
@@ -36,4 +38,5 @@ urlpatterns += [
     re_path(r'^cms/', include(wagtailadmin_urls)),
     re_path(r'^documents/', include(wagtaildocs_urls)),
     re_path(r'^pages/', include(wagtail_urls)),
+    re_path(r'', include(grapple_urls)),
 ]
