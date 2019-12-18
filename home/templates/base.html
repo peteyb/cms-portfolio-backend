@@ -1,0 +1,15 @@
+{% load static %}
+
+<body class="{% block body_class %}template-{{ self.get_verbose_name|slugify }}{% endblock %}">
+
+    <main role="main">
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    {% load static %}
+
+</body>
+
+</html>
