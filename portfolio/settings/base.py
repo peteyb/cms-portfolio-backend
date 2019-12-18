@@ -146,6 +146,8 @@ STATIC_URL = '/static/'
 # wagtail settings
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+print(MEDIA_ROOT)
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
+print(MEDIA_ROOT)
 MEDIA_URL = '/media/'
 WAGTAIL_SITE_NAME = 'Portfolio Site'
