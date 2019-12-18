@@ -6,7 +6,7 @@ from urllib.parse import urlparse
 
 import dj_database_url
 
-# import raven
+import raven
 
 from .base import *  # noqa
 
@@ -38,18 +38,18 @@ SECURE_SSL_REDIRECT = True
 #     'db': 0,
 # }
 
-# INSTALLED_APPS += ('raven.contrib.django.raven_compat',)
+INSTALLED_APPS += ('raven.contrib.django.raven_compat',)
 
-# RAVEN_CONFIG = {
-#     'dsn': os.getenv('SENTRY_DSN')
-# }
+RAVEN_CONFIG = {
+    'dsn': os.getenv('SENTRY_DSN')
+}
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': True,
     'root': {
         'level': 'WARNING',
-        'handlers': ['console'],
+        'handlers': ['sentry'],
     },
     'formatters': {
         'verbose': {
@@ -58,11 +58,11 @@ LOGGING = {
         },
     },
     'handlers': {
-        # 'sentry': {
-        #     'level': 'ERROR',
-        #     'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
-        #     'tags': {'custom-tag': 'x'},
-        # },
+        'sentry': {
+            'level': 'ERROR',
+            'class': 'raven.contrib.django.raven_compat.handlers.SentryHandler',
+            'tags': {'custom-tag': 'x'},
+        },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
@@ -80,11 +80,11 @@ LOGGING = {
             'handlers': ['console'],
             'propagate': False,
         },
-        # 'sentry.errors': {
-        #     'level': 'DEBUG',
-        #     'handlers': ['console'],
-        #     'propagate': False,
-        # },
+        'sentry.errors': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': False,
+        },
         'django': {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'ERROR'),
