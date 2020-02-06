@@ -11,6 +11,13 @@ from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
 
+from .serializers import ImageSerializer
+
+
+class APIImageChooserBlock(ImageChooserBlock):
+    def get_api_representation(self, value, context=None):
+        return ImageSerializer(context=context).to_representation(value)
+
 
 class BlogIndexPage(Page):
     intro = RichTextField(blank=True)
@@ -34,7 +41,7 @@ class BlogPage(Page):
     extra = StreamField([
         ('heading', blocks.CharBlock(classname="full title")),
         ('paragraph', blocks.RichTextBlock()),
-        ('image', ImageChooserBlock()),
+        ('image', APIImageChooserBlock()),
     ], null=True)
 
     graphql_fields = [
