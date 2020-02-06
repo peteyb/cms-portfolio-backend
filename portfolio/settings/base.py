@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
+    'wagtail.api.v2',
+    'rest_framework',
 
     'modelcluster',
     'taggit',
@@ -57,7 +59,7 @@ INSTALLED_APPS = [
     "grapple",
     "graphene_django",
     "channels",
-    
+
     # third party
     'whitenoise.runserver_nostatic',
 

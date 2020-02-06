@@ -1,12 +1,15 @@
 from django.db import models
+from grapple.models import GraphQLStreamfield, GraphQLString
 from modelcluster.fields import ParentalKey
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel
-from wagtail.core.fields import RichTextField
+from wagtail.admin.edit_handlers import (FieldPanel, InlinePanel,
+                                         StreamFieldPanel)
+from wagtail.api import APIField
+from wagtail.core import blocks
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
+from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
-
-from grapple.models import GraphQLStreamfield, GraphQLString
 
 
 class BlogIndexPage(Page):
@@ -28,10 +31,21 @@ class BlogPage(Page):
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
+    extra = StreamField([
+        ('heading', blocks.CharBlock(classname="full title")),
+        ('paragraph', blocks.RichTextBlock()),
+        ('image', ImageChooserBlock()),
+    ], null=True)
 
     graphql_fields = [
         GraphQLString("date"),
         GraphQLString("body"),
+        GraphQLStreamfield("extra"),
+    ]
+
+    api_fields = [
+        APIField('body'),
+        APIField('extra'),
     ]
 
     search_fields = Page.search_fields + [
@@ -44,6 +58,7 @@ class BlogPage(Page):
         FieldPanel('intro'),
         FieldPanel('body', classname="full"),
         InlinePanel('gallery_images', label="Gallery images"),
+        StreamFieldPanel('extra'),
     ]
 
     def main_image(self):
