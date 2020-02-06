@@ -16,6 +16,7 @@ ALLOWED_HOSTS = [
 
 ENVIRONMENT = 'production'
 SECRET_KEY = os.getenv('SECRET_KEY')
+BUILD_HOOK_URL = os.getenv('BUILD_HOOK_URL')
 DEBUG = bool(os.getenv('DEBUG', False))
 DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
 SECURE_SSL_REDIRECT = True

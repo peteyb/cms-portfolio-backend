@@ -18,6 +18,7 @@ LOCAL_ENV = environ.Env(
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = LOCAL_ENV('SECRET_KEY')
 DEBUG = LOCAL_ENV('DEBUG')
+BUILD_HOOK_URL = LOCAL_ENV('BUILD_HOOK_URL')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
