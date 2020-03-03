@@ -5,8 +5,9 @@ production settings
 from urllib.parse import urlparse
 
 import dj_database_url
-
 import raven
+
+import cloudinary
 
 from .base import *  # noqa
 
@@ -20,6 +21,13 @@ BUILD_HOOK_URL = os.getenv('BUILD_HOOK_URL')
 DEBUG = bool(os.getenv('DEBUG', False))
 DATABASES['default'].update(dj_database_url.config(conn_max_age=500))
 SECURE_SSL_REDIRECT = True
+
+# cloudinary image config
+cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_NAME'),
+    api_key=os.getenv('CLOUDINARY_KEY'),
+    api_secret=os.getenv('CLOUDINARY_SECRET'),
+)
 
 # redis_url = urlparse(os.getenv('REDISCLOUD_URL'))
 # CACHES = {

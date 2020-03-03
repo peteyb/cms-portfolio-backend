@@ -10,6 +10,8 @@ from wagtail.core.models import Orderable, Page
 from wagtail.images.blocks import ImageChooserBlock
 from wagtail.images.edit_handlers import ImageChooserPanel
 from wagtail.search import index
+from wagtailcloudinary.blocks import CloudinaryImageBlock
+from wagtailcloudinary.fields import CloudinaryField, CloudinaryWidget
 
 from .serializers import ImageSerializer
 
@@ -35,13 +37,16 @@ class BlogIndexPage(Page):
 
 
 class BlogPage(Page):
+    """
+    A model to extend wagtail page for a BlogPost object
+    """
     date = models.DateField("Post date")
     intro = models.CharField(max_length=250)
     body = RichTextField(blank=True)
     extra = StreamField([
         ('heading', blocks.CharBlock(classname="full title")),
         ('paragraph', blocks.RichTextBlock()),
-        ('image', APIImageChooserBlock()),
+        ('image', CloudinaryImageBlock()),
     ], null=True)
 
     graphql_fields = [

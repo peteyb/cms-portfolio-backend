@@ -64,6 +64,8 @@ INSTALLED_APPS = [
 
     # third party
     'whitenoise.runserver_nostatic',
+    'cloudinary',
+    'wagtailcloudinary',
 
     # apps
     'home',

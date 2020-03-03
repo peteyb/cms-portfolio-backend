@@ -6,6 +6,7 @@ django-cors-headers==2.5.2
 # wagtail
 wagtail>=2.7,<2.8
 wagtail-grapple>=0.4,<0.5
+wagtailcloudinary==1.0.0
 
 # database
 psycopg2>=2.7,<3.0

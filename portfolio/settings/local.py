@@ -3,6 +3,7 @@
 local settings
 """
 import environ
+import cloudinary
 
 from .base import *  # noqa
 
@@ -14,6 +15,10 @@ LOCAL_ENV = environ.Env(
     ALLOWED_HOSTS=(list, ['127.0.0.1:9200']),
     DATABASE_URL=str,
     REDIS_URL=str,
+    BUILD_HOOK_URL=str,
+    CLOUDINARY_NAME=str,
+    CLOUDINARY_KEY=str,
+    CLOUDINARY_SECRET=str,
 )
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = LOCAL_ENV('SECRET_KEY')
@@ -29,6 +34,13 @@ DATABASES = {
         'PORT': 5432,
     }
 }
+
+# cloudinary image config
+cloudinary.config(
+    cloud_name=LOCAL_ENV('CLOUDINARY_NAME'),
+    api_key=LOCAL_ENV('CLOUDINARY_KEY'),
+    api_secret=LOCAL_ENV('CLOUDINARY_SECRET'),
+)
 
 # CACHES = {
 #     "default": {
