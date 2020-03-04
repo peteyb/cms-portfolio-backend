@@ -1,24 +1,34 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags cloudinary %}
 
 {% block body_class %}template-blogpage{% endblock %}
 
 {% block content %}
+
+    <p class="home-links">
+        <a href="/pages/" class="btn btn-primary button--grey">Home page</a>
+        <a href="/pages/posts/" class="btn btn-primary button--grey">Posts page</a>
+    </p>
+
     <h1>{{ page.title }}</h1>
-    <p class="meta">{{ page.date }}</p>
-
-    <div class="intro">{{ page.intro }}</div>
-
     {{ page.body|richtext }}
 
-    {% for item in page.gallery_images.all %}
-        <div style="float: left; margin: 10px">
-            {% image item.image fill-320x240 %}
-            <p>{{ item.caption }}</p>
-        </div>
-    {% endfor %}
+    {% with blocks=self.extra %}
 
-    <p><a href="{{ page.get_parent.url }}">Return to blog</a></p>
+        {% for block in blocks %}
+            {% if block.block_type == 'heading' %}
+                <h1>{{ block.value }}</h1>
+            {% elif block.block_type == 'paragraph' %}
+                <h1>{{ block.value|richtext }}</h1>
+            {% elif block.block_type == 'image' %}
+                {{ block }}
+                {% cloudinary block.value width=300 crop="scale" %}
+            {% endif %}
+        {% endfor %}
+
+    {% endwith %}
+
+    <p><a href="{{ page.get_parent.url }}" class="button--grey">Return to blog</a></p>
 
 {% endblock %}
