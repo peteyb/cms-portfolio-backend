@@ -4,6 +4,7 @@ from modelcluster.fields import ParentalKey
 from wagtail.admin.edit_handlers import (FieldPanel, InlinePanel,
                                          StreamFieldPanel)
 from wagtail.api import APIField
+from wagtail.api.v2.serializers import StreamField as StreamFieldSerializer
 from wagtail.core import blocks
 from wagtail.core.fields import RichTextField, StreamField
 from wagtail.core.models import Orderable, Page
@@ -19,6 +20,16 @@ from .serializers import ImageSerializer
 class APIImageChooserBlock(ImageChooserBlock):
     def get_api_representation(self, value, context=None):
         return ImageSerializer(context=context).to_representation(value)
+
+
+class SecureStreamField(StreamFieldSerializer):
+    """
+    Used to restrict private fields from being rendered via API
+    """
+    def to_representation(self, value):
+        if self.context['request'].user.is_authenticated:
+            return super().to_representation(value)
+        return ''
 
 
 class BlogIndexPage(Page):
@@ -58,6 +69,8 @@ class BlogPage(Page):
     api_fields = [
         APIField('body'),
         APIField('extra'),
+        APIField('restricted'),
+        APIField('extra', serializer=SecureStreamField()),
     ]
 
     search_fields = Page.search_fields + [
@@ -72,6 +85,10 @@ class BlogPage(Page):
         InlinePanel('gallery_images', label="Gallery images"),
         StreamFieldPanel('extra'),
     ]
+
+    @property
+    def restricted(self):
+        return [r.restriction_type for r in self.get_view_restrictions()]
 
     def main_image(self):
         gallery_item = self.gallery_images.first()
